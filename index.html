@@ -555,12 +555,21 @@ function onSentTap(e) {
   }
   $("passCard").classList.remove("evmode");
 }
+// 打ち込み判定：完全一致（accept）か、キーワード（keys）のグループが全て入っていれば正解
+function judgeTyped(q, v) {
+  if (!v) return false;
+  if ((q.accept || []).some(a => norm(a) === v)) return true;
+  if (q.keys && q.keys.length) {
+    return q.keys.every(group => group.some(k => v.includes(norm(k))));
+  }
+  return false;
+}
 function submitTypein() {
   if (phase !== "answer") return;
   const q = curItem.q;
   const v = norm($("typeInput").value);
   if (!v) return;
-  const ok = (q.accept || []).some(a => norm(a) === v);
+  const ok = judgeTyped(q, v);
   if (ok) {
     play("correct");
     setGuide("happy", "そのとおり！よく書けたね。");
@@ -649,8 +658,12 @@ $("furiBtn").addEventListener("click", () => {
 $("soundBtn").addEventListener("click", () => { settings.sound = !settings.sound; saveJSON(KEY.settings, settings); applySettings(); play("click"); });
 
 /* 起動 */
-fetch("texts.json").then(r => r.json()).then(data => {
-  TEXTS = data;
+fetch("texts/index.json").then(r => r.json()).then(async idx => {
+  const all = [];
+  for (const f of idx.files) {
+    try { all.push(await (await fetch("texts/" + f)).json()); } catch (e) { /* 読めない文章は飛ばす */ }
+  }
+  TEXTS = all;
   applySettings();
   renderHome();
 }).catch(() => {
