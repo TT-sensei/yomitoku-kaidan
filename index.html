@@ -436,6 +436,7 @@ function renderQuestion() {
   $("qProg").textContent = "もんだい " + (session.idx + 1) + " / " + session.items.length;
   $("qType").textContent = TYPE_LABEL[q.type] || "";
   $("qText").innerHTML = rubify(q.q);
+  $("qChoices").style.visibility = "";
   $("feedback").classList.remove("show");
   const ctx = $("qContext");
   if (q.type === "shiji") {
@@ -518,6 +519,7 @@ function finishQuestion(selfPowered) {
   }
   document.querySelectorAll("#qChoices .choice").forEach(b => { b.disabled = true; });
   $("typeInput").disabled = true;
+  $("qChoices").style.visibility = "hidden";   // 解説中は選択肢を隠す（縮んでスクロールしないように）
   $("fbNext").textContent = session.idx + 1 >= session.items.length ? "けっかを見る" : "つぎへ";
   $("feedback").classList.add("show");
 }
