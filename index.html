@@ -626,7 +626,7 @@ function finishSession() {
   if (session.mode === "normal" && session.textId) {
     const prev = stats.texts[session.textId] || { self: 0, plays: 0 };
     stats.texts[session.textId] = { self: Math.max(prev.self, session.self), plays: prev.plays + 1 };
-    stats.totalSelf += session.self;
+    stats.totalSelf = Object.values(stats.texts).reduce((a, t) => a + (t.self || 0), 0);
     stats.totalDone += total;
     saveJSON(KEY.stats, stats);
   }
@@ -695,11 +695,10 @@ $("soundBtn").addEventListener("click", () => { settings.sound = !settings.sound
 
 /* 起動 */
 fetch("texts/index.json").then(r => r.json()).then(async idx => {
-  const all = [];
-  for (const f of idx.files) {
-    try { all.push(await (await fetch("texts/" + f)).json()); } catch (e) { /* 読めない文章は飛ばす */ }
-  }
-  TEXTS = all;
+  const all = await Promise.all(idx.files.map(async f => {
+    try { return await (await fetch("texts/" + f)).json(); } catch (e) { return null; /* 読めない文章は飛ばす */ }
+  }));
+  TEXTS = all.filter(Boolean);
   applySettings();
   renderHome();
 }).catch(() => {
