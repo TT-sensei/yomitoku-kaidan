@@ -6,11 +6,19 @@
   "g3-setsumei2.json",
   "g3-setsumei3.json",
   "g3-monogatari3.json",
+  "g3-monogatari-onigiri.json",
+  "g3-monogatari-sakaagari.json",
+  "g3-setsumei-ari.json",
+  "g3-setsumei-dango.json",
   "g4-monogatari1.json",
   "g4-monogatari2.json",
   "g4-monogatari3.json",
   "g4-setsumei1.json",
   "g4-setsumei2.json",
-  "g4-setsumei3.json"
+  "g4-setsumei3.json",
+  "g4-monogatari-ame.json",
+  "g4-monogatari-ki.json",
+  "g4-monogatari-usagi.json",
+  "g4-setsumei-mizu.json"
  ]
 }
