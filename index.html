@@ -60,10 +60,15 @@
   .entry .arrow { font-size: 24px; color: #1f7a6d; font-weight: 800; }
   /* ---------- 読む画面 ---------- */
   .backbtn { background: none; border: none; color: #1f7a6d; font-size: 16px; font-weight: 800; cursor: pointer; margin-bottom: 10px; font-family: inherit; }
-  .readcard { padding: 22px 28px; margin-bottom: 14px; }
+  .readcard { padding: 18px 28px; margin-bottom: 14px; }
+  .readflex { display: flex; gap: 22px; align-items: center; }
+  .readflex .passage { flex: 1 1 auto; }
+  .readflex #readTable { flex: 0 0 auto; }
+  .readcard .passage { height: 478px; width: fit-content; max-width: 100%; margin: 0 auto; overflow-x: auto; font-size: 18px; line-height: 1.7; }
   .readcard h2 { font-size: 23px; color: #1f7a6d; margin-bottom: 14px; }
-  .passage { font-size: 19px; line-height: 2.05; }
-  .passage p { margin-bottom: 10px; }
+  .passage { writing-mode: vertical-rl; font-size: 19px; line-height: 2.05; }
+  .passage p { margin: 0 0 0 18px; }
+  .passage p:last-child { margin-left: 0; }
   table.data { border-collapse: collapse; margin: 14px auto; font-size: 17px; background: #fff; }
   table.data caption { font-weight: 800; margin-bottom: 8px; font-size: 16.5px; }
   table.data th, table.data td { border: 2px solid #b9cfc9; padding: 8px 20px; text-align: center; }
@@ -76,10 +81,13 @@
   .bigbtn:active { transform: translateY(2px); box-shadow: 0 2px 0 #155a50; }
   .bigbtn.sub { background: #fff; color: #1f7a6d; border: 2px solid #1f7a6d; box-shadow: none; }
   /* ---------- 解く画面 ---------- */
-  .quizgrid { display: grid; grid-template-columns: 1.05fr 1fr; gap: 14px; align-items: start; }
-  .passcard { padding: 18px 20px; max-height: 560px; overflow-y: auto; }
+  .quizgrid { display: grid; grid-template-columns: 1.25fr 1fr; gap: 14px; align-items: start; }
+  .passcard { padding: 18px 20px; }
+  .passcard .passage { height: 560px; width: fit-content; max-width: 100%; margin: 0 auto; overflow-x: auto; font-size: 16px; line-height: 1.7; }
+  .passcard table.data { font-size: 15.5px; }
+  .passcard table.data th, .passcard table.data td { padding: 6px 14px; }
   .passcard h3 { font-size: 18px; color: #1f7a6d; margin-bottom: 10px; }
-  .passcard .passage { font-size: 17.5px; line-height: 1.95; }
+  .passcard .passage { font-size: 16px; }
   .sent { border-radius: 6px; padding: 1px 2px; }
   .evmode .sent { cursor: pointer; }
   .evmode .sent:hover { background: #fff3cf; }
@@ -137,7 +145,8 @@
   @media (max-width: 900px) {
     .tgrid { grid-template-columns: 1fr 1fr; }
     .quizgrid { grid-template-columns: 1fr; }
-    .passcard { max-height: 300px; }
+    .passcard .passage { height: 380px; }
+    .readcard .passage { height: 420px; }
     .hero { flex-direction: column; }
     .hero img { width: 100%; height: 190px; }
   }
@@ -183,8 +192,7 @@
     <button class="backbtn" type="button" id="readBack">← もどる</button>
     <div class="card readcard">
       <h2 id="readTitle"></h2>
-      <div class="passage" id="readPassage"></div>
-      <div id="readTable"></div>
+      <div class="readflex"><div class="passage" id="readPassage"></div><div id="readTable"></div></div>
     </div>
     <button class="bigbtn" type="button" id="toQuiz">もんだいへ すすむ</button>
   </section>
@@ -349,6 +357,7 @@ function openRead(t) {
   curText = t;
   $("readTitle").innerHTML = rubify(t.title);
   $("readPassage").innerHTML = passageHTML(t, false);
+  $("readPassage").style.height = t.table ? "440px" : "478px";
   $("readTable").innerHTML = tableHTML(t);
   show("screen-read");
 }
@@ -391,6 +400,7 @@ function renderQuestion() {
   const t = it.text, q = it.q;
   $("quizTextTitle").innerHTML = rubify(t.title);
   $("quizPassage").innerHTML = passageHTML(t, false);
+  $("quizPassage").style.height = t.table ? "300px" : "560px";
   $("quizTable").innerHTML = tableHTML(t);
   $("passCard").classList.remove("evmode");
   $("qProg").textContent = "もんだい " + (session.idx + 1) + " / " + session.items.length;
