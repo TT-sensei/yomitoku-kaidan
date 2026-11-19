@@ -1,0 +1,641 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>よみとく階段｜3・4年生 国語 読むこと</title>
+<link rel="stylesheet" href="https://tt-sensei.github.io/edu-effects/css/edu-effects-library.css">
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { height: 100%; }
+  body {
+    font-family: "Hiragino Maru Gothic ProN", "Hiragino Sans", "Noto Sans JP", "Yu Gothic", sans-serif;
+    background: #fdf6ec; color: #33505e; overflow-x: hidden;
+  }
+  ruby rt { font-size: .5em; color: #7a97a5; font-weight: 600; }
+  header {
+    display: flex; align-items: center; justify-content: space-between; gap: 12px;
+    padding: 10px 22px; background: #fffdf8; border-bottom: 2px solid #f0e3cb;
+    position: sticky; top: 0; z-index: 30;
+  }
+  .ttl { line-height: 1.15; }
+  .ttl b { font-size: 27px; color: #1f7a6d; letter-spacing: .04em; }
+  .ttl small { display: block; font-size: 13px; color: #7a97a5; font-weight: 700; margin-top: 2px; }
+  .hbtns { display: flex; gap: 8px; }
+  .hbtn {
+    border: 2px solid #1f7a6d; background: #fff; color: #1f7a6d; border-radius: 999px;
+    font-size: 14px; font-weight: 800; padding: 7px 14px; cursor: pointer; font-family: inherit;
+  }
+  .hbtn.off { border-color: #c9d4d9; color: #9db2ba; }
+  main { max-width: 1180px; margin: 0 auto; padding: 14px 18px 26px; }
+  .screen { display: none; }
+  .screen.active { display: block; }
+  .card { background: #fff; border-radius: 18px; box-shadow: 0 2px 10px rgba(90, 70, 30, .07); }
+  /* ---------- ホーム ---------- */
+  .hero { display: flex; gap: 18px; align-items: center; padding: 16px 20px; margin-bottom: 14px; }
+  .hero img { width: 300px; height: 200px; object-fit: cover; border-radius: 14px; flex: 0 0 auto; }
+  .hero h2 { font-size: 24px; color: #1f7a6d; margin-bottom: 8px; }
+  .hero p { font-size: 15.5px; line-height: 1.65; }
+  .gtabs { display: flex; gap: 10px; margin-bottom: 12px; }
+  .gtab {
+    flex: 1; padding: 12px; font-size: 19px; font-weight: 800; border-radius: 14px; cursor: pointer;
+    border: 2px solid #d8e6e2; background: #fff; color: #7a97a5; font-family: inherit;
+  }
+  .gtab.active { background: #1f7a6d; border-color: #1f7a6d; color: #fff; }
+  .tgrid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-bottom: 14px; }
+  .tcard { padding: 14px 16px; cursor: pointer; border: 2px solid transparent; text-align: left; font-family: inherit; width: 100%; }
+  .tcard:hover { border-color: #9fd4c8; }
+  .kind { display: inline-block; font-size: 12px; font-weight: 800; padding: 2px 9px; border-radius: 999px; margin-bottom: 7px; }
+  .kind.mono { background: #fdeeda; color: #b06f16; }
+  .kind.setsu { background: #e3ecfd; color: #46649e; }
+  .tcard h3 { font-size: 18.5px; color: #33505e; margin-bottom: 5px; }
+  .tcard .meta { font-size: 13px; color: #7a97a5; font-weight: 700; }
+  .tcard .done { color: #1f7a6d; font-weight: 800; }
+  .entries { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .entry { padding: 14px 18px; cursor: pointer; display: flex; align-items: center; justify-content: space-between; border: 2px solid transparent; font-family: inherit; text-align: left; width: 100%; background: #fff; border-radius: 18px; box-shadow: 0 2px 10px rgba(90,70,30,.07); }
+  .entry:hover { border-color: #9fd4c8; }
+  .entry b { font-size: 18px; display: block; margin-bottom: 3px; }
+  .entry small { font-size: 13px; color: #7a97a5; font-weight: 700; }
+  .entry .num { font-size: 30px; font-weight: 800; color: #1f7a6d; }
+  .entry .arrow { font-size: 24px; color: #1f7a6d; font-weight: 800; }
+  /* ---------- 読む画面 ---------- */
+  .backbtn { background: none; border: none; color: #1f7a6d; font-size: 16px; font-weight: 800; cursor: pointer; margin-bottom: 10px; font-family: inherit; }
+  .readcard { padding: 22px 28px; margin-bottom: 14px; }
+  .readcard h2 { font-size: 23px; color: #1f7a6d; margin-bottom: 14px; }
+  .passage { font-size: 19px; line-height: 2.05; }
+  .passage p { margin-bottom: 10px; }
+  table.data { border-collapse: collapse; margin: 14px auto; font-size: 17px; background: #fff; }
+  table.data caption { font-weight: 800; margin-bottom: 8px; font-size: 16.5px; }
+  table.data th, table.data td { border: 2px solid #b9cfc9; padding: 8px 20px; text-align: center; }
+  table.data th { background: #e7f3ef; }
+  .bigbtn {
+    display: block; margin: 0 auto; background: #1f7a6d; color: #fff; border: none; cursor: pointer;
+    font-size: 19px; font-weight: 800; padding: 14px 44px; border-radius: 999px; font-family: inherit;
+    box-shadow: 0 4px 0 #155a50;
+  }
+  .bigbtn:active { transform: translateY(2px); box-shadow: 0 2px 0 #155a50; }
+  .bigbtn.sub { background: #fff; color: #1f7a6d; border: 2px solid #1f7a6d; box-shadow: none; }
+  /* ---------- 解く画面 ---------- */
+  .quizgrid { display: grid; grid-template-columns: 1.05fr 1fr; gap: 14px; align-items: start; }
+  .passcard { padding: 18px 20px; max-height: 560px; overflow-y: auto; }
+  .passcard h3 { font-size: 18px; color: #1f7a6d; margin-bottom: 10px; }
+  .passcard .passage { font-size: 17.5px; line-height: 1.95; }
+  .sent { border-radius: 6px; padding: 1px 2px; }
+  .evmode .sent { cursor: pointer; }
+  .evmode .sent:hover { background: #fff3cf; }
+  .sent.picked { background: #ffe1a8; }
+  .sent.right { background: #cdeeda; }
+  .qcol { display: flex; flex-direction: column; gap: 12px; }
+  .guide { display: flex; gap: 12px; align-items: center; padding: 10px 16px; }
+  .guide img { width: 54px; height: 54px; border-radius: 50%; object-fit: cover; background: #eef6f3; flex: 0 0 auto; }
+  .guide p { font-size: 15px; line-height: 1.55; font-weight: 700; }
+  .qcard { padding: 18px 20px; }
+  .qhead { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; }
+  .qprog { font-size: 13px; color: #9db2ba; font-weight: 800; }
+  .qtype { font-size: 12.5px; font-weight: 800; padding: 3px 10px; border-radius: 999px; background: #e7f3ef; color: #1f7a6d; }
+  .qtext { font-size: 19.5px; font-weight: 800; line-height: 1.6; margin-bottom: 12px; }
+  .context { background: #f4faf8; border: 2px solid #dcebe6; border-radius: 12px; padding: 12px 14px; font-size: 17.5px; line-height: 1.8; margin-bottom: 12px; }
+  .context .hl { background: #ffe1a8; border-radius: 5px; padding: 0 3px; font-weight: 800; }
+  .choices { display: flex; flex-direction: column; gap: 9px; }
+  .choice {
+    text-align: left; font-size: 17.5px; font-weight: 700; padding: 12px 16px; border-radius: 13px;
+    border: 2px solid #d8e6e2; background: #fff; cursor: pointer; font-family: inherit; color: #33505e; line-height: 1.5;
+  }
+  .choice:hover { border-color: #1f7a6d; }
+  .choice.picked { border-color: #e8a13a; background: #fff6e6; }
+  .choice.right { border-color: #2e9e62; background: #e9f9ef; }
+  .choice.wrong { border-color: #d96a5a; background: #fdecea; }
+  .choice:disabled { cursor: default; opacity: .92; }
+  .typeinrow { display: flex; gap: 9px; }
+  .typeinrow input {
+    flex: 1; font-size: 19px; padding: 12px 14px; border: 2px solid #b9cfc9; border-radius: 13px;
+    font-family: inherit; color: #33505e; min-width: 0;
+  }
+  .typeinrow input:focus { outline: none; border-color: #1f7a6d; }
+  .ansbtn { background: #1f7a6d; color: #fff; border: none; font-size: 17px; font-weight: 800; padding: 12px 22px; border-radius: 13px; cursor: pointer; font-family: inherit; flex: 0 0 auto; }
+  .feedback { display: none; padding: 14px 18px; }
+  .feedback.show { display: block; }
+  .feedback .res { font-size: 18px; font-weight: 800; margin-bottom: 6px; }
+  .feedback .res.ok { color: #2e9e62; }
+  .feedback .res.ng { color: #d96a5a; }
+  .feedback .exp { font-size: 15.5px; line-height: 1.65; margin-bottom: 12px; }
+  .feedback .model { font-size: 15.5px; font-weight: 800; margin-bottom: 8px; }
+  /* ---------- 結果・記録 ---------- */
+  .resultcard { padding: 30px; text-align: center; }
+  .resultcard img { width: 110px; height: 110px; border-radius: 50%; object-fit: cover; background: #eef6f3; }
+  .resultcard h2 { font-size: 25px; color: #1f7a6d; margin: 12px 0 6px; }
+  .resultcard .score { font-size: 20px; font-weight: 800; margin-bottom: 6px; }
+  .resultcard p { font-size: 15.5px; line-height: 1.7; margin-bottom: 18px; }
+  .btnrow { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+  .reccard { padding: 18px 22px; margin-bottom: 12px; }
+  .reccard h3 { font-size: 18px; color: #1f7a6d; margin-bottom: 10px; }
+  .recrow { display: flex; justify-content: space-between; padding: 8px 2px; border-bottom: 1px dashed #e3d9c4; font-size: 16px; }
+  .recrow:last-child { border-bottom: none; }
+  .recrow .st { font-weight: 800; color: #1f7a6d; }
+  .empty { text-align: center; padding: 26px; font-size: 16.5px; font-weight: 700; color: #7a97a5; }
+  footer { text-align: center; font-size: 12px; color: #a9bcc2; padding: 4px 20px 18px; line-height: 1.7; }
+  @media (max-width: 900px) {
+    .tgrid { grid-template-columns: 1fr 1fr; }
+    .quizgrid { grid-template-columns: 1fr; }
+    .passcard { max-height: 300px; }
+    .hero { flex-direction: column; }
+    .hero img { width: 100%; height: 190px; }
+  }
+</style>
+</head>
+<body>
+<header>
+  <div class="ttl"><b>よみとく階段</b><small>3・4年生　国語　読むこと</small></div>
+  <div class="hbtns">
+    <button class="hbtn" id="furiBtn" type="button">ふりがな：ON</button>
+    <button class="hbtn" id="soundBtn" type="button">音：ON</button>
+  </div>
+</header>
+<main>
+  <!-- ホーム -->
+  <section class="screen active" id="screen-home">
+    <div class="card hero">
+      <img src="assets/hero.webp" alt="図書室で本を読む二人">
+      <div>
+        <h2>文を読んで、考えて、書いてみよう</h2>
+        <p>文章を読んで、答えの根拠になる文を本文からタップで探します。「これ・それ」が何をさすかを考えたり、答えを打ち込んだりする問題もあります。一つずつ階段をのぼるように、読む力をつけていきましょう。</p>
+      </div>
+    </div>
+    <div class="gtabs">
+      <button class="gtab active" type="button" data-grade="3">3年生</button>
+      <button class="gtab" type="button" data-grade="4">4年生</button>
+    </div>
+    <div class="tgrid" id="textGrid"></div>
+    <div class="entries">
+      <button class="entry" type="button" id="tokkunEntry">
+        <span><b>とっくん（まちがい直し）</b><small>まちがえた問題を、もう一度たしかめます</small></span>
+        <span class="num" id="tokkunCount">0</span>
+      </button>
+      <button class="entry" type="button" id="recordsEntry">
+        <span><b>学習の記録</b><small>読んだ文と、自力でできた問題</small></span>
+        <span class="arrow">→</span>
+      </button>
+    </div>
+  </section>
+
+  <!-- 読む画面 -->
+  <section class="screen" id="screen-read">
+    <button class="backbtn" type="button" id="readBack">← もどる</button>
+    <div class="card readcard">
+      <h2 id="readTitle"></h2>
+      <div class="passage" id="readPassage"></div>
+      <div id="readTable"></div>
+    </div>
+    <button class="bigbtn" type="button" id="toQuiz">もんだいへ すすむ</button>
+  </section>
+
+  <!-- 解く画面 -->
+  <section class="screen" id="screen-quiz">
+    <button class="backbtn" type="button" id="quizBack">← やめる</button>
+    <div class="quizgrid">
+      <div class="card passcard" id="passCard">
+        <h3 id="quizTextTitle"></h3>
+        <div class="passage" id="quizPassage"></div>
+        <div id="quizTable"></div>
+      </div>
+      <div class="qcol">
+        <div class="card guide">
+          <img id="guideImg" src="https://tt-sensei.github.io/navi-character-/assets/web/characters/saku/expressions/01-normal-smile.webp" alt="さく" onerror="this.style.visibility='hidden'">
+          <p id="guideLine">よく読んで、考えてみよう。</p>
+        </div>
+        <div class="card qcard">
+          <div class="qhead"><span class="qprog" id="qProg"></span><span class="qtype" id="qType"></span></div>
+          <div class="qtext" id="qText"></div>
+          <div class="context" id="qContext" style="display:none"></div>
+          <div class="choices" id="qChoices"></div>
+          <div class="typeinrow" id="qTypein" style="display:none">
+            <input type="text" id="typeInput" placeholder="ここに打ち込んでね" autocomplete="off">
+            <button class="ansbtn" type="button" id="typeSubmit">こたえる</button>
+          </div>
+        </div>
+        <div class="card feedback" id="feedback">
+          <div class="res" id="fbRes"></div>
+          <div class="model" id="fbModel" style="display:none"></div>
+          <div class="exp" id="fbExp"></div>
+          <button class="bigbtn" type="button" id="fbNext">つぎへ</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 結果 -->
+  <section class="screen" id="screen-result">
+    <div class="card resultcard">
+      <img id="resultImg" src="https://tt-sensei.github.io/navi-character-/assets/web/characters/saku/expressions/08-celebrating.webp" alt="さく" onerror="this.style.visibility='hidden'">
+      <h2 id="resultTitle">おつかれさま！</h2>
+      <div class="score" id="resultScore"></div>
+      <p id="resultMsg"></p>
+      <div class="btnrow">
+        <button class="bigbtn" type="button" id="resultHome">ホームへ もどる</button>
+        <button class="bigbtn sub" type="button" id="resultRecords">学習の記録を 見る</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- 記録 -->
+  <section class="screen" id="screen-records">
+    <button class="backbtn" type="button" id="recBack">← もどる</button>
+    <div id="recBody"></div>
+  </section>
+</main>
+<footer>文章と問題は、すべてTT-senseiのオリジナルです。記録は、この端末の中にだけ保存されます。</footer>
+<script src="https://tt-sensei.github.io/edu-effects/js/edu-effects.js"></script>
+<script>
+"use strict";
+const $ = id => document.getElementById(id);
+const KEY = { mistakes: "yomitokuKaidan.mistakes.v1", stats: "yomitokuKaidan.stats.v1", settings: "yomitokuKaidan.settings.v1" };
+function loadJSON(k, fb) { try { const v = localStorage.getItem(k); return v ? JSON.parse(v) : fb; } catch (e) { return fb; } }
+function saveJSON(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); } catch (e) { } }
+let mistakes = loadJSON(KEY.mistakes, []);   // [{textId, qq}]
+let stats = loadJSON(KEY.stats, { texts: {}, totalSelf: 0, totalDone: 0 });
+let settings = Object.assign({ sound: true, furigana: true }, loadJSON(KEY.settings, {}));
+
+/* 音（sounds-recipe-。読み込めなくても学習は続ける） */
+let soundMod = null, audioCtx = null;
+import("https://tt-sensei.github.io/sounds-recipe-/sounds.js").then(m => { soundMod = m; }).catch(() => { });
+function play(id) {
+  if (!settings.sound || !soundMod) return;
+  try {
+    if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    if (audioCtx.state === "suspended") audioCtx.resume();
+    soundMod.playSound(audioCtx, id, 0.5);
+  } catch (e) { }
+}
+
+/* ふりがな */
+function R(s) {
+  if (!settings.furigana) return s.replace(/《[^》]*》/g, "");
+  return s.replace(/([^《]+)《([^》]+)》/g, "<ruby>$1<rt>$2</rt></ruby>");
+}
+function plain(s) { return String(s).replace(/《[^》]*》/g, ""); }
+function esc(s) { return String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;"); }
+function rubify(s) { return R(esc(s)); }
+function norm(s) {
+  return plain(String(s)).replace(/[Ａ-Ｚａ-ｚ０-９]/g, ch => String.fromCharCode(ch.charCodeAt(0) - 0xFEE0))
+    .replace(/[\s　、。・「」『』（）()]/g, "")
+    .replace(/[ァ-ヶ]/g, ch => String.fromCharCode(ch.charCodeAt(0) - 0x60));
+}
+
+/* ガイド（さく） */
+const FACE = {
+  normal: "https://tt-sensei.github.io/navi-character-/assets/web/characters/saku/expressions/01-normal-smile.webp",
+  happy: "https://tt-sensei.github.io/navi-character-/assets/web/characters/saku/expressions/02-happy.webp",
+  think: "https://tt-sensei.github.io/navi-character-/assets/web/characters/saku/expressions/03-thinking.webp",
+  celeb: "https://tt-sensei.github.io/navi-character-/assets/web/characters/saku/expressions/08-celebrating.webp"
+};
+function setGuide(face, line) {
+  const img = $("guideImg");
+  img.style.visibility = "visible";
+  img.src = FACE[face] || FACE.normal;
+  $("guideLine").textContent = line;
+}
+
+/* データ */
+let TEXTS = [];
+let curGrade = 3;
+let curText = null;
+let session = null;   // {items:[{text,q}], idx, self, mode:'normal'|'tokkun', textId}
+
+function show(id) {
+  document.querySelectorAll(".screen").forEach(s => s.classList.toggle("active", s.id === id));
+  window.scrollTo(0, 0);
+}
+function tableHTML(t) {
+  if (!t.table) return "";
+  let h = '<table class="data"><caption>' + rubify(t.table.caption) + "</caption><tr>";
+  t.table.head.forEach(x => { h += "<th>" + rubify(x) + "</th>"; });
+  h += "</tr>";
+  t.table.rows.forEach(r => { h += "<tr>" + r.map(x => "<td>" + rubify(x) + "</td>").join("") + "</tr>"; });
+  return h + "</table>";
+}
+function passageHTML(t, tappable) {
+  const breaks = new Set(t.paraBreaks || []);
+  let h = "", open = false;
+  t.sentences.forEach((s, i) => {
+    if (i === 0 || breaks.has(i)) { if (open) h += "</p>"; h += "<p>"; open = true; }
+    h += '<span class="sent" data-si="' + i + '">' + rubify(s) + "</span>";
+  });
+  if (open) h += "</p>";
+  return h;
+}
+
+/* ホーム */
+function renderHome() {
+  document.querySelectorAll(".gtab").forEach(b => b.classList.toggle("active", Number(b.dataset.grade) === curGrade));
+  const grid = $("textGrid");
+  grid.innerHTML = "";
+  TEXTS.filter(t => t.grade === curGrade).forEach(t => {
+    const st = stats.texts[t.id];
+    const btn = document.createElement("button");
+    btn.type = "button";
+    btn.className = "card tcard";
+    btn.innerHTML = '<span class="kind ' + (t.kind === "ものがたり" ? "mono" : "setsu") + '">' + t.kind + "</span>" +
+      "<h3>" + rubify(t.title) + '</h3><div class="meta">もんだいは ' + t.questions.length + "つ" +
+      (st ? '　<span class="done">自力でできた ' + st.self + " / " + t.questions.length + "</span>" : "") + "</div>";
+    btn.addEventListener("click", () => { play("click"); openRead(t); });
+    grid.appendChild(btn);
+  });
+  $("tokkunCount").textContent = mistakes.length;
+}
+document.querySelectorAll(".gtab").forEach(b => b.addEventListener("click", () => { curGrade = Number(b.dataset.grade); play("click"); renderHome(); }));
+
+/* 読む画面 */
+function openRead(t) {
+  curText = t;
+  $("readTitle").innerHTML = rubify(t.title);
+  $("readPassage").innerHTML = passageHTML(t, false);
+  $("readTable").innerHTML = tableHTML(t);
+  show("screen-read");
+}
+$("readBack").addEventListener("click", () => { play("click"); show("screen-home"); renderHome(); });
+$("toQuiz").addEventListener("click", () => { play("decide"); startSession(curText, "normal"); });
+
+/* セッション */
+function shuffle(a) { const x = a.slice(); for (let i = x.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); const t = x[i]; x[i] = x[j]; x[j] = t; } return x; }
+function startSession(text, mode) {
+  const items = text.questions.map(q => ({ text, q }));
+  session = { items: shuffle(items), idx: 0, self: 0, mode, textId: text.id };
+  renderQuestion();
+  show("screen-quiz");
+}
+function startTokkun() {
+  if (!mistakes.length) return;
+  const items = [];
+  mistakes.forEach(m => {
+    const t = TEXTS.find(x => x.id === m.textId);
+    if (!t) return;
+    const q = t.questions.find(x => plain(x.q) === m.qq);
+    if (q) items.push({ text: t, q });
+  });
+  if (!items.length) { mistakes = []; saveJSON(KEY.mistakes, mistakes); renderHome(); return; }
+  session = { items: shuffle(items), idx: 0, self: 0, mode: "tokkun", textId: null };
+  renderQuestion();
+  show("screen-quiz");
+}
+$("tokkunEntry").addEventListener("click", () => { if (mistakes.length) { play("decide"); startTokkun(); } });
+$("quizBack").addEventListener("click", () => { play("click"); session = null; show("screen-home"); renderHome(); });
+
+const TYPE_LABEL = { evidence: "根拠さがし", shiji: "指示語", typein: "打ち込み", kousei: "構成", youshi: "要旨", yousu: "様子", zuhyou: "図表" };
+let phase = "answer";   // answer | evidence | done
+let curItem = null;
+
+function renderQuestion() {
+  const it = session.items[session.idx];
+  curItem = it;
+  phase = "answer";
+  const t = it.text, q = it.q;
+  $("quizTextTitle").innerHTML = rubify(t.title);
+  $("quizPassage").innerHTML = passageHTML(t, false);
+  $("quizTable").innerHTML = tableHTML(t);
+  $("passCard").classList.remove("evmode");
+  $("qProg").textContent = "もんだい " + (session.idx + 1) + " / " + session.items.length;
+  $("qType").textContent = TYPE_LABEL[q.type] || "";
+  $("qText").innerHTML = rubify(q.q);
+  $("feedback").classList.remove("show");
+  const ctx = $("qContext");
+  if (q.type === "shiji") {
+    const sent = t.sentences[q.sentence];
+    const w = q.word;
+    const pi = plain(sent).indexOf(w);
+    let html;
+    if (pi >= 0) {
+      const rawParts = splitRuby(sent, pi, w.length);
+      html = rawParts;
+    } else { html = rubify(sent); }
+    ctx.innerHTML = html;
+    ctx.style.display = "block";
+    setGuide("think", "「" + w + "」が何をさしているか、前の文から考えてみよう。");
+  } else {
+    ctx.style.display = "none";
+    if (q.type === "evidence" || q.type === "yousu") setGuide("normal", "答えを選んだら、その答えが書いてある文を本文からタップしてね。");
+    else if (q.type === "typein") setGuide("normal", "キーボードで打ち込んで答えてみよう。本文の言葉をよく見てね。");
+    else setGuide("normal", "よく読んで、考えてみよう。");
+  }
+  const ch = $("qChoices");
+  ch.innerHTML = "";
+  const ti = $("qTypein");
+  if (q.choices) {
+    ti.style.display = "none";
+    shuffle(q.choices).forEach(c => {
+      const b = document.createElement("button");
+      b.type = "button";
+      b.className = "choice";
+      b.innerHTML = rubify(c);
+      b.addEventListener("click", () => pickChoice(b, c));
+      ch.appendChild(b);
+    });
+  } else {
+    ti.style.display = "flex";
+    $("typeInput").value = "";
+    $("typeInput").disabled = false;
+    setTimeout(() => { try { $("typeInput").focus({ preventScroll: true }); } catch (e) { } }, 60);
+  }
+}
+/* ルビ付き文の中で、plain位置の語をハイライトする */
+function splitRuby(sent, pStart, pLen) {
+  let out = "", p = 0, i = 0;
+  const tokens = [];
+  while (i < sent.length) {
+    const m = sent.slice(i).match(/^([^《]+)《([^》]+)》/);
+    if (m) { tokens.push({ text: m[1], ruby: m[2] }); i += m[0].length; }
+    else { tokens.push({ text: sent[i], ruby: null }); i += 1; }
+  }
+  tokens.forEach(tk => {
+    const start = p, end = p + tk.text.length;
+    p = end;
+    const inHl = start >= pStart && end <= pStart + pLen;
+    const part = settings.furigana && tk.ruby ? "<ruby>" + esc(tk.text) + "<rt>" + esc(tk.ruby) + "</rt></ruby>" : esc(tk.text);
+    out += inHl ? '<span class="hl">' + part + "</span>" : part;
+  });
+  return out;
+}
+
+function markMistake(it) {
+  const key = plain(it.q.q);
+  if (!mistakes.some(m => m.textId === it.text.id && m.qq === key)) {
+    mistakes.push({ textId: it.text.id, qq: key });
+    saveJSON(KEY.mistakes, mistakes);
+  }
+}
+function clearMistake(it) {
+  const key = plain(it.q.q);
+  mistakes = mistakes.filter(m => !(m.textId === it.text.id && m.qq === key));
+  saveJSON(KEY.mistakes, mistakes);
+}
+function finishQuestion(selfPowered) {
+  phase = "done";
+  const it = curItem;
+  if (selfPowered) {
+    session.self++;
+    if (session.mode === "tokkun") clearMistake(it);
+  } else if (session.mode === "normal") {
+    markMistake(it);
+  }
+  document.querySelectorAll("#qChoices .choice").forEach(b => { b.disabled = true; });
+  $("typeInput").disabled = true;
+  $("fbNext").textContent = session.idx + 1 >= session.items.length ? "けっかを見る" : "つぎへ";
+  $("feedback").classList.add("show");
+}
+function showFeedback(ok, modelText) {
+  $("fbRes").textContent = ok ? "よくできました！" : "ざんねん、まちがいです";
+  $("fbRes").className = "res " + (ok ? "ok" : "ng");
+  const m = $("fbModel");
+  if (modelText) { m.style.display = "block"; m.innerHTML = "答え：" + rubify(modelText); }
+  else m.style.display = "none";
+  $("fbExp").innerHTML = rubify(curItem.q.explain || "");
+}
+function pickChoice(btn, choice) {
+  if (phase !== "answer") return;
+  const q = curItem.q;
+  document.querySelectorAll("#qChoices .choice").forEach(b => b.classList.remove("picked"));
+  btn.classList.add("picked");
+  if (plain(choice) === plain(q.answer)) {
+    play("correct");
+    btn.classList.add("right");
+    if (q.type === "evidence" || q.type === "yousu") {
+      phase = "evidence";
+      setGuide("happy", "答えは合っているよ。つぎは、その答えがどこに書いてあるか、文をタップしてさがしてね。");
+      $("passCard").classList.add("evmode");
+      document.querySelectorAll("#quizPassage .sent").forEach(sp => {
+        sp.addEventListener("click", onSentTap);
+      });
+    } else {
+      setGuide("happy", "そのとおり！");
+      showFeedback(true, null);
+      finishQuestion(true);
+    }
+  } else {
+    play("wrong");
+    btn.classList.add("wrong");
+    document.querySelectorAll("#qChoices .choice").forEach(b => {
+      if (plain(b.textContent) === plain(q.answer)) b.classList.add("right");
+    });
+    setGuide("think", "本文をもう一度見てみよう。");
+    showFeedback(false, q.answer);
+    finishQuestion(false);
+  }
+}
+function onSentTap(e) {
+  if (phase !== "evidence") return;
+  const sp = e.currentTarget;
+  const si = Number(sp.dataset.si);
+  const q = curItem.q;
+  document.querySelectorAll("#quizPassage .sent").forEach(s => s.classList.remove("picked"));
+  sp.classList.add("picked");
+  if (si === q.evidence) {
+    play("correct");
+    sp.classList.add("right");
+    setGuide("happy", "その文だね。根拠が見つけられた！");
+    showFeedback(true, null);
+    finishQuestion(true);
+  } else {
+    play("wrong");
+    const right = document.querySelector('#quizPassage .sent[data-si="' + q.evidence + '"]');
+    if (right) right.classList.add("right");
+    setGuide("think", "答えが書いてあるのは、色がついた文だよ。");
+    showFeedback(false, null);
+    finishQuestion(false);
+  }
+  $("passCard").classList.remove("evmode");
+}
+function submitTypein() {
+  if (phase !== "answer") return;
+  const q = curItem.q;
+  const v = norm($("typeInput").value);
+  if (!v) return;
+  const ok = (q.accept || []).some(a => norm(a) === v);
+  if (ok) {
+    play("correct");
+    setGuide("happy", "そのとおり！よく書けたね。");
+    showFeedback(true, null);
+    finishQuestion(true);
+  } else {
+    play("wrong");
+    setGuide("think", "本文をもう一度見てみよう。");
+    showFeedback(false, (q.accept || [])[0] || "");
+    finishQuestion(false);
+  }
+}
+$("typeSubmit").addEventListener("click", submitTypein);
+$("typeInput").addEventListener("keydown", e => { if (e.key === "Enter") submitTypein(); });
+$("fbNext").addEventListener("click", () => {
+  play("click");
+  $("typeInput").disabled = false;
+  session.idx++;
+  if (session.idx >= session.items.length) finishSession();
+  else renderQuestion();
+});
+function finishSession() {
+  const total = session.items.length;
+  if (session.mode === "normal" && session.textId) {
+    const prev = stats.texts[session.textId] || { self: 0, plays: 0 };
+    stats.texts[session.textId] = { self: Math.max(prev.self, session.self), plays: prev.plays + 1 };
+    stats.totalSelf += session.self;
+    stats.totalDone += total;
+    saveJSON(KEY.stats, stats);
+  }
+  $("resultScore").textContent = "自力でできた問題：" + session.self + " / " + total;
+  $("resultMsg").textContent = session.mode === "tokkun"
+    ? (mistakes.length ? "とっくん、おつかれさま。まちがいは あと " + mistakes.length + " つ残っています。" : "とっくん完了！まちがえた問題を、ぜんぶ克服しました。")
+    : (session.self === total ? "全部、自力でできました。すごい！" : "おつかれさま。まちがえた問題は「とっくん」で、もう一度たしかめられます。");
+  show("screen-result");
+  play("clear");
+  try { if (window.EduEffects) EduEffects.confetti(document.body, 60); } catch (e) { }
+  session = null;
+}
+$("resultHome").addEventListener("click", () => { play("click"); show("screen-home"); renderHome(); });
+$("resultRecords").addEventListener("click", () => { play("click"); renderRecords(); show("screen-records"); });
+
+/* 記録 */
+function renderRecords() {
+  const body = $("recBody");
+  let h = "";
+  [3, 4].forEach(g => {
+    h += '<div class="card reccard"><h3>' + g + '年生</h3>';
+    TEXTS.filter(t => t.grade === g).forEach(t => {
+      const st = stats.texts[t.id];
+      h += '<div class="recrow"><span>' + rubify(t.title) + '</span><span class="st">' +
+        (st ? "自力でできた " + st.self + " / " + t.questions.length : "まだ読んでいません") + "</span></div>";
+    });
+    h += "</div>";
+  });
+  h += '<div class="card reccard"><h3>これまでの合計</h3>' +
+    '<div class="recrow"><span>自力でできた問題</span><span class="st">' + stats.totalSelf + " 問</span></div>" +
+    '<div class="recrow"><span>とっくんに残っている問題</span><span class="st">' + mistakes.length + " 問</span></div></div>";
+  body.innerHTML = h;
+}
+$("recordsEntry").addEventListener("click", () => { play("click"); renderRecords(); show("screen-records"); });
+$("recBack").addEventListener("click", () => { play("click"); show("screen-home"); renderHome(); });
+
+/* 設定 */
+function applySettings() {
+  $("furiBtn").textContent = "ふりがな：" + (settings.furigana ? "ON" : "OFF");
+  $("furiBtn").classList.toggle("off", !settings.furigana);
+  $("soundBtn").textContent = "音：" + (settings.sound ? "ON" : "OFF");
+  $("soundBtn").classList.toggle("off", !settings.sound);
+}
+$("furiBtn").addEventListener("click", () => {
+  settings.furigana = !settings.furigana;
+  saveJSON(KEY.settings, settings);
+  applySettings();
+  renderHome();
+  if (curText && $("screen-read").classList.contains("active")) openRead(curText);
+});
+$("soundBtn").addEventListener("click", () => { settings.sound = !settings.sound; saveJSON(KEY.settings, settings); applySettings(); play("click"); });
+
+/* 起動 */
+fetch("texts.json").then(r => r.json()).then(data => {
+  TEXTS = data;
+  applySettings();
+  renderHome();
+}).catch(() => {
+  $("textGrid").innerHTML = '<div class="empty">文章データを読み込めませんでした。</div>';
+});
+</script>
+</body>
+</html>
