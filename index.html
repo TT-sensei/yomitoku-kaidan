@@ -60,6 +60,11 @@
   .entry .arrow { font-size: 24px; color: #1f7a6d; font-weight: 800; }
   /* ---------- 読む画面 ---------- */
   .backbtn { background: none; border: none; color: #1f7a6d; font-size: 16px; font-weight: 800; cursor: pointer; margin-bottom: 10px; font-family: inherit; }
+  body.playing header { display: none; }
+  .playtop { display: flex; justify-content: space-between; align-items: flex-start; }
+  .playtop .backbtn { margin-bottom: 10px; }
+  .playtgl { display: flex; gap: 8px; }
+  .playtgl .hbtn { font-size: 13px; padding: 6px 13px; }
   .passage { writing-mode: vertical-rl; font-size: 19px; line-height: 2.05; }
   .passage p { margin: 0 0 0 18px; }
   .passage p:last-child { margin-left: 0; }
@@ -80,7 +85,7 @@
   .passflex { display: flex; gap: 18px; align-items: flex-start; }
   .passflex .passage { flex: 1 1 auto; }
   .passflex #playTable { flex: 0 0 auto; }
-  .passcard .passage { height: 562px; width: fit-content; max-width: 100%; margin: 0 auto; overflow-x: auto; font-size: 17.5px; line-height: 1.75; }
+  .passcard .passage { height: 610px; width: fit-content; max-width: 100%; margin: 0 auto; overflow-x: auto; font-size: 17.5px; line-height: 1.75; }
   .passcard table.data { font-size: 15.5px; }
   .passcard table.data th, .passcard table.data td { padding: 6px 14px; }
   .passcard h3 { font-size: 18px; color: #1f7a6d; margin-bottom: 10px; }
@@ -187,7 +192,13 @@
 
   <!-- 読む・解く画面（文章は動かさず、左にもんだいが出る） -->
   <section class="screen" id="screen-play">
-    <button class="backbtn" type="button" id="playBack">← もどる</button>
+    <div class="playtop">
+      <button class="backbtn" type="button" id="playBack">← もどる</button>
+      <div class="playtgl">
+        <button class="hbtn" id="furiBtn2" type="button">ふりがな：ON</button>
+        <button class="hbtn" id="soundBtn2" type="button">音：ON</button>
+      </div>
+    </div>
     <div class="playgrid">
       <div class="qcol">
         <div class="card guide">
@@ -305,6 +316,7 @@ let curText = null;
 let session = null;   // {items:[{text,q}], idx, self, mode:'normal'|'tokkun', textId}
 
 function show(id) {
+  document.body.classList.toggle("playing", id === "screen-play");
   document.querySelectorAll(".screen").forEach(s => s.classList.toggle("active", s.id === id));
   window.scrollTo(0, 0);
 }
@@ -635,11 +647,17 @@ $("recBack").addEventListener("click", () => { play("click"); show("screen-home"
 
 /* 設定 */
 function applySettings() {
-  $("furiBtn").textContent = "ふりがな：" + (settings.furigana ? "ON" : "OFF");
-  $("furiBtn").classList.toggle("off", !settings.furigana);
-  $("soundBtn").textContent = "音：" + (settings.sound ? "ON" : "OFF");
-  $("soundBtn").classList.toggle("off", !settings.sound);
+  for (const id of ["furiBtn", "furiBtn2"]) {
+    $(id).textContent = "ふりがな：" + (settings.furigana ? "ON" : "OFF");
+    $(id).classList.toggle("off", !settings.furigana);
+  }
+  for (const id of ["soundBtn", "soundBtn2"]) {
+    $(id).textContent = "音：" + (settings.sound ? "ON" : "OFF");
+    $(id).classList.toggle("off", !settings.sound);
+  }
 }
+$("furiBtn2").addEventListener("click", () => $("furiBtn").click());
+$("soundBtn2").addEventListener("click", () => $("soundBtn").click());
 $("furiBtn").addEventListener("click", () => {
   settings.furigana = !settings.furigana;
   saveJSON(KEY.settings, settings);
