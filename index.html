@@ -145,6 +145,20 @@
   .recrow .st { font-weight: 800; color: #1f7a6d; }
   .empty { text-align: center; padding: 26px; font-size: 16.5px; font-weight: 700; color: #7a97a5; }
   footer { text-align: center; font-size: 12px; color: #a9bcc2; padding: 4px 20px 18px; line-height: 1.7; }
+  /* ===== 解く画面：問題側も縦書き、解説まで1枚のカードに（よむたんけん式） ===== */
+  .qcol { min-height: 0; }
+  #introCard, #qCard { flex: 1; min-height: 0; }
+  #qCard { grid-template-rows: auto minmax(0, 1fr) auto auto; grid-template-areas: "count" "main" "typein" "feedback"; gap: 10px; }
+  #qCard .qhead { grid-area: count; margin-bottom: 0; }
+  #qMain { grid-area: main; display: grid; grid-template-columns: minmax(0, 1fr) minmax(104px, .52fr); grid-template-areas: "choices question"; gap: 10px; min-height: 0; }
+  #qChoices { grid-area: choices; flex-direction: row-reverse; align-items: stretch; gap: 8px; min-height: 0; }
+  #qChoices .choice { writing-mode: vertical-rl; flex: 1 1 0; max-width: 118px; text-align: start; overflow: auto; font-size: 16.5px; line-height: 1.5; padding: 10px 7px; }
+  #qContext { grid-area: choices; writing-mode: vertical-rl; overflow: auto; margin: 0; font-size: 17px; line-height: 1.75; }
+  #qText { grid-area: question; writing-mode: vertical-rl; overflow: auto; margin: 0; font-size: 19px; line-height: 1.6; min-height: 0; }
+  #qTypein { grid-area: typein; }
+  #qCard .feedback { grid-area: feedback; background: #fff8e6; border: 2px solid #f0d48a; border-radius: 14px; box-shadow: none; max-height: 205px; overflow: auto; }
+  @media (min-width: 901px) { .playgrid { height: calc(100vh - 64px); align-items: stretch; } }
+
   @media (max-width: 900px) {
     .tgrid { grid-template-columns: 1fr 1fr; }
     .playgrid { grid-template-columns: 1fr; }
@@ -212,19 +226,21 @@
         </div>
         <div class="card qcard" id="qCard" style="display:none">
           <div class="qhead"><span class="qprog" id="qProg"></span><span class="qtype" id="qType"></span></div>
-          <div class="qtext" id="qText"></div>
-          <div class="context" id="qContext" style="display:none"></div>
-          <div class="choices" id="qChoices"></div>
+          <div id="qMain">
+            <div class="choices" id="qChoices"></div>
+            <div class="context" id="qContext" style="display:none"></div>
+            <div class="qtext" id="qText"></div>
+          </div>
           <div class="typeinrow" id="qTypein" style="display:none">
             <input type="text" id="typeInput" placeholder="ここに打ち込んでね" autocomplete="off">
             <button class="ansbtn" type="button" id="typeSubmit">こたえる</button>
           </div>
-        </div>
-        <div class="card feedback" id="feedback">
-          <div class="res" id="fbRes"></div>
-          <div class="model" id="fbModel" style="display:none"></div>
-          <div class="exp" id="fbExp"></div>
-          <button class="bigbtn" type="button" id="fbNext">つぎへ</button>
+          <div class="feedback" id="feedback">
+            <div class="res" id="fbRes"></div>
+            <div class="model" id="fbModel" style="display:none"></div>
+            <div class="exp" id="fbExp"></div>
+            <button class="bigbtn" type="button" id="fbNext">つぎへ</button>
+          </div>
         </div>
       </div>
       <div class="card passcard" id="passCard">
@@ -383,7 +399,7 @@ function startSession(text, mode) {
   const items = text.questions.map(q => ({ text, q }));
   session = { items: shuffle(items), idx: 0, self: 0, mode, textId: text.id };
   $("introCard").style.display = "none";
-  $("qCard").style.display = "block";
+  $("qCard").style.display = "grid";
   renderQuestion();
 }
 function startTokkun() {
@@ -398,7 +414,7 @@ function startTokkun() {
   if (!items.length) { mistakes = []; saveJSON(KEY.mistakes, mistakes); renderHome(); return; }
   session = { items: shuffle(items), idx: 0, self: 0, mode: "tokkun", textId: null };
   $("introCard").style.display = "none";
-  $("qCard").style.display = "block";
+  $("qCard").style.display = "grid";
   show("screen-play");
   renderQuestion();
 }
