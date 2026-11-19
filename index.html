@@ -60,12 +60,6 @@
   .entry .arrow { font-size: 24px; color: #1f7a6d; font-weight: 800; }
   /* ---------- 読む画面 ---------- */
   .backbtn { background: none; border: none; color: #1f7a6d; font-size: 16px; font-weight: 800; cursor: pointer; margin-bottom: 10px; font-family: inherit; }
-  .readcard { padding: 18px 28px; margin-bottom: 14px; }
-  .readflex { display: flex; gap: 22px; align-items: center; }
-  .readflex .passage { flex: 1 1 auto; }
-  .readflex #readTable { flex: 0 0 auto; }
-  .readcard .passage { height: 478px; width: fit-content; max-width: 100%; margin: 0 auto; overflow-x: auto; font-size: 18px; line-height: 1.7; }
-  .readcard h2 { font-size: 23px; color: #1f7a6d; margin-bottom: 14px; }
   .passage { writing-mode: vertical-rl; font-size: 19px; line-height: 2.05; }
   .passage p { margin: 0 0 0 18px; }
   .passage p:last-child { margin-left: 0; }
@@ -81,9 +75,12 @@
   .bigbtn:active { transform: translateY(2px); box-shadow: 0 2px 0 #155a50; }
   .bigbtn.sub { background: #fff; color: #1f7a6d; border: 2px solid #1f7a6d; box-shadow: none; }
   /* ---------- 解く画面 ---------- */
-  .quizgrid { display: grid; grid-template-columns: 1.25fr 1fr; gap: 14px; align-items: start; }
-  .passcard { padding: 18px 20px; }
-  .passcard .passage { height: 560px; width: fit-content; max-width: 100%; margin: 0 auto; overflow-x: auto; font-size: 16px; line-height: 1.7; }
+  .playgrid { display: grid; grid-template-columns: 3fr 7fr; gap: 14px; align-items: start; }
+  .passcard { padding: 16px 18px; }
+  .passflex { display: flex; gap: 18px; align-items: flex-start; }
+  .passflex .passage { flex: 1 1 auto; }
+  .passflex #playTable { flex: 0 0 auto; }
+  .passcard .passage { height: 562px; width: fit-content; max-width: 100%; margin: 0 auto; overflow-x: auto; font-size: 17.5px; line-height: 1.75; }
   .passcard table.data { font-size: 15.5px; }
   .passcard table.data th, .passcard table.data td { padding: 6px 14px; }
   .passcard h3 { font-size: 18px; color: #1f7a6d; margin-bottom: 10px; }
@@ -94,19 +91,20 @@
   .sent.picked { background: #ffe1a8; }
   .sent.right { background: #cdeeda; }
   .qcol { display: flex; flex-direction: column; gap: 12px; }
-  .guide { display: flex; gap: 12px; align-items: center; padding: 10px 16px; }
-  .guide img { width: 54px; height: 54px; border-radius: 50%; object-fit: cover; background: #eef6f3; flex: 0 0 auto; }
-  .guide p { font-size: 15px; line-height: 1.55; font-weight: 700; }
-  .qcard { padding: 18px 20px; }
+  .guide { display: flex; gap: 10px; align-items: center; padding: 8px 13px; }
+  .guide img { width: 46px; height: 46px; border-radius: 50%; object-fit: cover; background: #eef6f3; flex: 0 0 auto; }
+  .guide p { font-size: 14px; line-height: 1.55; font-weight: 700; }
+  .qcard { padding: 16px 17px; }
   .qhead { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; }
   .qprog { font-size: 13px; color: #9db2ba; font-weight: 800; }
   .qtype { font-size: 12.5px; font-weight: 800; padding: 3px 10px; border-radius: 999px; background: #e7f3ef; color: #1f7a6d; }
-  .qtext { font-size: 19.5px; font-weight: 800; line-height: 1.6; margin-bottom: 12px; }
-  .context { background: #f4faf8; border: 2px solid #dcebe6; border-radius: 12px; padding: 12px 14px; font-size: 17.5px; line-height: 1.8; margin-bottom: 12px; }
+  .qtext { font-size: 17.5px; font-weight: 800; line-height: 1.6; margin-bottom: 12px; }
+  .introtext { font-size: 14.5px; line-height: 1.7; margin-bottom: 16px; }
+  .context { background: #f4faf8; border: 2px solid #dcebe6; border-radius: 12px; padding: 11px 13px; font-size: 16px; line-height: 1.8; margin-bottom: 12px; }
   .context .hl { background: #ffe1a8; border-radius: 5px; padding: 0 3px; font-weight: 800; }
   .choices { display: flex; flex-direction: column; gap: 9px; }
   .choice {
-    text-align: left; font-size: 17.5px; font-weight: 700; padding: 12px 16px; border-radius: 13px;
+    text-align: left; font-size: 15.5px; font-weight: 700; padding: 10px 13px; border-radius: 13px;
     border: 2px solid #d8e6e2; background: #fff; cursor: pointer; font-family: inherit; color: #33505e; line-height: 1.5;
   }
   .choice:hover { border-color: #1f7a6d; }
@@ -116,7 +114,7 @@
   .choice:disabled { cursor: default; opacity: .92; }
   .typeinrow { display: flex; gap: 9px; }
   .typeinrow input {
-    flex: 1; font-size: 19px; padding: 12px 14px; border: 2px solid #b9cfc9; border-radius: 13px;
+    flex: 1; font-size: 17px; padding: 11px 13px; border: 2px solid #b9cfc9; border-radius: 13px;
     font-family: inherit; color: #33505e; min-width: 0;
   }
   .typeinrow input:focus { outline: none; border-color: #1f7a6d; }
@@ -144,9 +142,9 @@
   footer { text-align: center; font-size: 12px; color: #a9bcc2; padding: 4px 20px 18px; line-height: 1.7; }
   @media (max-width: 900px) {
     .tgrid { grid-template-columns: 1fr 1fr; }
-    .quizgrid { grid-template-columns: 1fr; }
-    .passcard .passage { height: 380px; }
-    .readcard .passage { height: 420px; }
+    .playgrid { grid-template-columns: 1fr; }
+    .passcard { order: -1; }
+    .passcard .passage { height: 420px; }
     .hero { flex-direction: column; }
     .hero img { width: 100%; height: 190px; }
   }
@@ -187,31 +185,21 @@
     </div>
   </section>
 
-  <!-- 読む画面 -->
-  <section class="screen" id="screen-read">
-    <button class="backbtn" type="button" id="readBack">← もどる</button>
-    <div class="card readcard">
-      <h2 id="readTitle"></h2>
-      <div class="readflex"><div class="passage" id="readPassage"></div><div id="readTable"></div></div>
-    </div>
-    <button class="bigbtn" type="button" id="toQuiz">もんだいへ すすむ</button>
-  </section>
-
-  <!-- 解く画面 -->
-  <section class="screen" id="screen-quiz">
-    <button class="backbtn" type="button" id="quizBack">← やめる</button>
-    <div class="quizgrid">
-      <div class="card passcard" id="passCard">
-        <h3 id="quizTextTitle"></h3>
-        <div class="passage" id="quizPassage"></div>
-        <div id="quizTable"></div>
-      </div>
+  <!-- 読む・解く画面（文章は動かさず、左にもんだいが出る） -->
+  <section class="screen" id="screen-play">
+    <button class="backbtn" type="button" id="playBack">← もどる</button>
+    <div class="playgrid">
       <div class="qcol">
         <div class="card guide">
           <img id="guideImg" src="https://tt-sensei.github.io/navi-character-/assets/web/characters/saku/expressions/01-normal-smile.webp" alt="さく" onerror="this.style.visibility='hidden'">
-          <p id="guideLine">よく読んで、考えてみよう。</p>
+          <p id="guideLine">まずは読んでみましょう。</p>
         </div>
-        <div class="card qcard">
+        <div class="card qcard" id="introCard">
+          <div class="qtext">まずは読んでみましょう</div>
+          <p class="introtext">文章を読み終わったら、下のボタンを押してね。もんだいは、ここ（左側）に出ます。文章はそのまま動かないので、見ながら考えられます。</p>
+          <button class="bigbtn" type="button" id="toQuiz">もんだいへ すすむ</button>
+        </div>
+        <div class="card qcard" id="qCard" style="display:none">
           <div class="qhead"><span class="qprog" id="qProg"></span><span class="qtype" id="qType"></span></div>
           <div class="qtext" id="qText"></div>
           <div class="context" id="qContext" style="display:none"></div>
@@ -226,6 +214,13 @@
           <div class="model" id="fbModel" style="display:none"></div>
           <div class="exp" id="fbExp"></div>
           <button class="bigbtn" type="button" id="fbNext">つぎへ</button>
+        </div>
+      </div>
+      <div class="card passcard" id="passCard">
+        <h3 id="quizTextTitle"></h3>
+        <div class="passflex">
+          <div id="playTable"></div>
+          <div class="passage" id="quizPassage"></div>
         </div>
       </div>
     </div>
@@ -345,23 +340,29 @@ function renderHome() {
     btn.innerHTML = '<span class="kind ' + (t.kind === "ものがたり" ? "mono" : "setsu") + '">' + t.kind + "</span>" +
       "<h3>" + rubify(t.title) + '</h3><div class="meta">もんだいは ' + t.questions.length + "つ" +
       (st ? '　<span class="done">自力でできた ' + st.self + " / " + t.questions.length + "</span>" : "") + "</div>";
-    btn.addEventListener("click", () => { play("click"); openRead(t); });
+    btn.addEventListener("click", () => { play("click"); openPlay(t); });
     grid.appendChild(btn);
   });
   $("tokkunCount").textContent = mistakes.length;
 }
 document.querySelectorAll(".gtab").forEach(b => b.addEventListener("click", () => { curGrade = Number(b.dataset.grade); play("click"); renderHome(); }));
 
-/* 読む画面 */
-function openRead(t) {
+/* 読む・解く画面（文章は固定、左にもんだいが出る） */
+function openPlay(t) {
   curText = t;
-  $("readTitle").innerHTML = rubify(t.title);
-  $("readPassage").innerHTML = passageHTML(t, false);
-  $("readPassage").style.height = t.table ? "440px" : "478px";
-  $("readTable").innerHTML = tableHTML(t);
-  show("screen-read");
+  session = null;
+  phase = "answer";
+  $("quizTextTitle").innerHTML = rubify(t.title);
+  $("quizPassage").innerHTML = passageHTML(t, false);
+  $("playTable").innerHTML = tableHTML(t);
+  $("passCard").classList.remove("evmode");
+  $("introCard").style.display = "block";
+  $("qCard").style.display = "none";
+  $("feedback").classList.remove("show");
+  setGuide("normal", "まずは読んでみましょう。読み終わったら「もんだいへ すすむ」を押してね。");
+  show("screen-play");
 }
-$("readBack").addEventListener("click", () => { play("click"); show("screen-home"); renderHome(); });
+$("playBack").addEventListener("click", () => { play("click"); session = null; show("screen-home"); renderHome(); });
 $("toQuiz").addEventListener("click", () => { play("decide"); startSession(curText, "normal"); });
 
 /* セッション */
@@ -369,8 +370,9 @@ function shuffle(a) { const x = a.slice(); for (let i = x.length - 1; i > 0; i--
 function startSession(text, mode) {
   const items = text.questions.map(q => ({ text, q }));
   session = { items: shuffle(items), idx: 0, self: 0, mode, textId: text.id };
+  $("introCard").style.display = "none";
+  $("qCard").style.display = "block";
   renderQuestion();
-  show("screen-quiz");
 }
 function startTokkun() {
   if (!mistakes.length) return;
@@ -383,11 +385,12 @@ function startTokkun() {
   });
   if (!items.length) { mistakes = []; saveJSON(KEY.mistakes, mistakes); renderHome(); return; }
   session = { items: shuffle(items), idx: 0, self: 0, mode: "tokkun", textId: null };
+  $("introCard").style.display = "none";
+  $("qCard").style.display = "block";
+  show("screen-play");
   renderQuestion();
-  show("screen-quiz");
 }
 $("tokkunEntry").addEventListener("click", () => { if (mistakes.length) { play("decide"); startTokkun(); } });
-$("quizBack").addEventListener("click", () => { play("click"); session = null; show("screen-home"); renderHome(); });
 
 const TYPE_LABEL = { evidence: "根拠さがし", shiji: "指示語", typein: "打ち込み", kousei: "構成", youshi: "要旨", yousu: "様子", zuhyou: "図表" };
 let phase = "answer";   // answer | evidence | done
@@ -400,8 +403,7 @@ function renderQuestion() {
   const t = it.text, q = it.q;
   $("quizTextTitle").innerHTML = rubify(t.title);
   $("quizPassage").innerHTML = passageHTML(t, false);
-  $("quizPassage").style.height = t.table ? "300px" : "560px";
-  $("quizTable").innerHTML = tableHTML(t);
+  $("playTable").innerHTML = tableHTML(t);
   $("passCard").classList.remove("evmode");
   $("qProg").textContent = "もんだい " + (session.idx + 1) + " / " + session.items.length;
   $("qType").textContent = TYPE_LABEL[q.type] || "";
@@ -634,7 +636,15 @@ $("furiBtn").addEventListener("click", () => {
   saveJSON(KEY.settings, settings);
   applySettings();
   renderHome();
-  if (curText && $("screen-read").classList.contains("active")) openRead(curText);
+  if ($("screen-play").classList.contains("active") && phase !== "evidence") {
+    const t = session && session.items[session.idx] ? session.items[session.idx].text : curText;
+    if (t) {
+      $("quizPassage").innerHTML = passageHTML(t, false);
+      $("playTable").innerHTML = tableHTML(t);
+      if (session && phase === "answer") renderQuestion();
+      else if (!session) openPlay(curText);
+    }
+  }
 });
 $("soundBtn").addEventListener("click", () => { settings.sound = !settings.sound; saveJSON(KEY.settings, settings); applySettings(); play("click"); });
 
