@@ -151,6 +151,7 @@
   #qCard { grid-template-rows: auto minmax(0, 1fr) auto auto; grid-template-areas: "count" "main" "typein" "feedback"; gap: 10px; }
   #qCard .qhead { grid-area: count; margin-bottom: 0; }
   #qMain { grid-area: main; display: grid; grid-template-columns: minmax(0, 1fr) minmax(104px, .52fr); grid-template-areas: "choices question"; gap: 10px; min-height: 0; }
+  #qMain.typein { grid-template-columns: minmax(0, 1fr); grid-template-areas: "question"; }
   #qChoices { grid-area: choices; flex-direction: row-reverse; align-items: stretch; gap: 8px; min-height: 0; }
   #qChoices .choice { writing-mode: vertical-rl; flex: 1 1 0; max-width: 118px; text-align: start; overflow: auto; font-size: 16.5px; line-height: 1.5; padding: 10px 7px; }
   #qContext { grid-area: choices; writing-mode: vertical-rl; overflow: auto; margin: 0; font-size: 17px; line-height: 1.75; }
@@ -424,6 +425,26 @@ const TYPE_LABEL = { evidence: "根拠さがし", shiji: "指示語", typein: "�
 let phase = "answer";   // answer | evidence | done
 let curItem = null;
 
+/* 縦書き：あふれる場合は文字を少しずつ小さくして、スクロールなしで収める */
+function fitVertical(el, len, base, min, ratio) {
+  if (!el || !len) return;
+  let fs = base;
+  el.style.fontSize = fs + "px";
+  const cs = getComputedStyle(el);
+  const padH = parseFloat(cs.paddingTop) + parseFloat(cs.paddingBottom);
+  const padW = parseFloat(cs.paddingLeft) + parseFloat(cs.paddingRight);
+  while (fs > min) {
+    const pitch = fs * ratio;
+    const innerH = el.clientHeight - padH, innerW = el.clientWidth - padW;
+    if (innerH <= 0 || innerW <= 0) break;
+    const perCol = Math.max(1, Math.floor(innerH / pitch));
+    const cols = Math.ceil(len / perCol);
+    if (cols * pitch <= innerW - 2) break;
+    fs -= 0.5;
+    el.style.fontSize = fs + "px";
+  }
+}
+
 function renderQuestion() {
   const it = session.items[session.idx];
   curItem = it;
@@ -436,6 +457,7 @@ function renderQuestion() {
   $("qProg").textContent = "もんだい " + (session.idx + 1) + " / " + session.items.length;
   $("qType").textContent = TYPE_LABEL[q.type] || "";
   $("qText").innerHTML = rubify(q.q);
+  $("qMain").classList.toggle("typein", q.type === "typein");
   $("qChoices").style.visibility = "";
   $("feedback").classList.remove("show");
   const ctx = $("qContext");
@@ -467,6 +489,7 @@ function renderQuestion() {
       b.type = "button";
       b.className = "choice";
       b.innerHTML = rubify(c);
+      b.dataset.len = plain(c).length;
       b.addEventListener("click", () => pickChoice(b, c));
       ch.appendChild(b);
     });
@@ -476,6 +499,11 @@ function renderQuestion() {
     $("typeInput").disabled = false;
     setTimeout(() => { try { $("typeInput").focus({ preventScroll: true }); } catch (e) { } }, 60);
   }
+  requestAnimationFrame(() => {
+    fitVertical($("qText"), plain(q.q).length, 19, 13, 1.6);
+    if (q.type === "shiji") fitVertical(ctx, plain(t.sentences[q.sentence]).length, 17, 12.5, 1.75);
+    document.querySelectorAll("#qChoices .choice").forEach(b => fitVertical(b, Number(b.dataset.len || 0), 16.5, 12, 1.5));
+  });
 }
 /* ルビ付き文の中で、plain位置の語をハイライトする */
 function splitRuby(sent, pStart, pLen) {
